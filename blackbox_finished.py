@@ -8,6 +8,7 @@ from datetime import datetime
 # ✅ 모든 뜨레들을 한 변수로 관리
 running = multiprocessing.Value('b', True)  # 불리언 (0 or 1)
 
+# 전역 변수들 
 isWEBCAM = False #웹캠이 있는지 확인
 basic_path = 'C:\\Users\\syoun\\blackbox\\'
 video_duration = 10
@@ -109,7 +110,7 @@ if __name__ == "__main__":
     p1.start()
     p2.start()
 
-    # ✅ 키보드에서 'q' 누르면 모든 프로그램들을 즉시 종료
+    # ✅ 키보드에서'q' 누르면 모든 프로그램들을 즉시 종료
     while running.value:  
         if keyboard.is_pressed('q'):  # ✅ 키보드에서 'q' 감지
             print("🛑 프로그램 종료 요청됨")
