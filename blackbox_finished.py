@@ -39,7 +39,6 @@ def createVideo(now):
     # out_gray = cv2.VideoWriter(videoName + '_gray.avi', fourcc, fps, frameSize, isColor=False) 
     
     #녹화 시작
-    recording = True 
     start_time = time.time() #녹화 시간 추적
     while time.time() - start_time < video_duration:
         retval, frame = cap.read()  #프레임 읽기
