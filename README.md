@@ -86,8 +86,21 @@ time.time()
 * <code> now.strftime("%Y%m%d_%H%M%S") </code>: 날짜와 시간을 문자열로 바꿔준다
 #### 폴더 경로
 * <code> os.path.join(base_path, path_add1, ..., filename) </code> 폴더의 경로를 설정할 수 있다
-* <code> for dirpath, dirnames, filenames in os.walk(basic_path) </code> 함수를 사용하여, 폴더 안에 있는 모든 파일들을 목록으로 불러와 for 루프로 확인 할 수 있다 
-* <code> os.path.islink(path) </code> 함수를 사용하여 폴더 용량을 추척 할 때 파일이 아닌 것을 걸러 낼 수 있다 
+* <code> os.path.lisdir(path) </code> 특정 경로 안에 존재하는 모든 파일들과 디렉토리를 불러오는 반면
+  * <pre><code>
+    directory1
+    file1.txt
+    file2.txt
+    file3.txt
+  </code></pre>   
+* <code> for dirpath, dirnames, filenames in os.walk(basic_path) </code> 는 특정 경로에 존재하는 모든 파일들 폴더 안에 있는 디렉토리의 하위 구조까지 불러온다
+  * <pre><code>
+    ('C:\\test', ['directory1'], ['file1.txt', 'file2.txt', 'file3.txt'])
+    ('C:\\test\\directory1', [], ['file4.txt']) 
+  </code></pre>
+* <code> os.path.islink(path) </code> 함수를 사용하여 폴더 용량을 추척 할 때 파일이 아닌 것을 걸러 낼 수 있다
+* <code> os.rmdir(folder_path) </code> 해당 폴더를 지울 수 있다 (단, 폴더 안에 모든 파일들을 <code> os.remove(file_path)로 지우고 난 후에만 가능)
+* <code> os.path.getsize(path) </code> 해당 경로에 용량을 측정
 #### 키보드 입력 탐지
 <code> cv2.waitKey(1) & 0xFF == ord('q') </code> 는 와 <code> keyboard.is_pressed('q') </code> 달리 
 * 키보드 입력을 항상 주의한다: 여기에서 <code> waitKey(1) </code> 는 1 milisecond만 키보드 입력을 주의한다
