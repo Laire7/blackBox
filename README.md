@@ -51,11 +51,11 @@ if __name__ == "__main__":
 ### OpenCV 
 #### 비디오 생성
 1.비디오 설정
-  * <pre><code>cv2.VideoCapture(*숫자/비디오 경로*)</code></pre>
+<pre><code>cv2.VideoCapture(*숫자/비디오 경로*)</code></pre>
     * 웹캠 녹화: 1
     * 녹음본: 비디오 경로 (예: C:\\Users\\syoun\\blackbox\\data\\vtest.avi)
 2. 비디오 생성
-  * <code>cv2.VideoWriter(videoName + '.avi', fourcc, fps, frameSize)</code>
+<code>cv2.VideoWriter(videoName + '.avi', fourcc, fps, frameSize)</code>
     1. <code> videoName + '.avi' </code></pre>: 비디오 경로 설정하기
     2. <code> fourcc </code>: 비디오 객체 만들기
       * <code>fourcc = cv2.VideoWriter_fourcc(*'XVID') </code></pre>
@@ -64,8 +64,8 @@ if __name__ == "__main__":
     4. <code> frameSize </code></pre>: 카메라의 이미지 사이즈 설정하기
       * <code> frameSize = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))) </code></pre>
 3. 비디오 녹화
-  * <code> retval, frame = cap.read()  </code> : 프레임 읽기
-  * <code> out.write(frame) </code> : 프레임 저장하기
+<code> retval, frame = cap.read()  </code> : 프레임 읽기
+<code> out.write(frame) </code> : 프레임 저장하기
   * 녹화 중에도 사용자가 프로그램 종료를 명시했는지 감지: 프레임이 바뀌는 빈도에 맞춰 키보드 입력 감지 
     '''
     delay = int(1000 / fps) 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 ### 기타 요소
 #### 시간
-<pre><code> time.time() </code></pre>: 현재 시간을 알려준다
+<code> time.time() </code>: 현재 시간을 알려준다
   * <pre><code> import time </code></pre>
 #### 날짜 + 시간
 <code>datetime.now()</code> : 현재 날짜와 시간을 알려준다
