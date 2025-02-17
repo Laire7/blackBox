@@ -5,8 +5,8 @@ import multiprocessing
 import keyboard  # ✅ Detects 'q' anywhere
 from datetime import datetime
 
-# ✅ Shared variable for stopping all processes
-running = multiprocessing.Value('b', True)  # Boolean flag (0 or 1)
+# ✅ 모든 뜨레들을 한 변수로 관리
+running = multiprocessing.Value('b', True)  # 불리언 (0 or 1)
 
 isWEBCAM = False #웹캠이 있는지 확인
 basic_path = 'C:\\Users\\syoun\\blackbox\\'
@@ -103,22 +103,20 @@ def checkStorageFunc(running):
 
 ### 🔹 메인 실행 부분
 if __name__ == "__main__":
-    running = multiprocessing.Value('b', True)  # ✅ Shared boolean flag
-
     p1 = multiprocessing.Process(target=createBlackbox, args=(running,))
     p2 = multiprocessing.Process(target=checkStorageFunc, args=(running,))
 
     p1.start()
     p2.start()
 
-    # ✅ Main process detects 'q' and stops all child processes
+    # ✅ 키보드에서 'q' 누르면 모든 프로그램들을 즉시 종료
     while running.value:  
-        if keyboard.is_pressed('q'):  # ✅ Global key press detection
+        if keyboard.is_pressed('q'):  # ✅ 키보드에서 'q' 감지
             print("🛑 프로그램 종료 요청됨")
             running.value = False
             break
 
-    # ✅ Properly stop processes
+    # ✅ 프로그램 종료
     p1.terminate()
     p2.terminate()
 
