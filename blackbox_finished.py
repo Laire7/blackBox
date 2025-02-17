@@ -89,16 +89,54 @@ def createBlackbox(running):
         time.sleep(folder_duration)  # Sleep for 5 seconds
     print("🛑 블랙박스 종료")
 
+# 폴더 용량 측정하기
+def check_folderSize():
+    print(f'checkfoldersize func started')
+    global folderSize
+    try:
+        #폴더 내 모든 파일과 하위 폴더를 순회
+        for dirpath, dirnames, filenames in os.walk(basic_path):
+            for f in filenames:
+                f_p = os.path.join(dirpath, f)
+                #os.path.islink() 함수를 사용하여 심볼릭 링크는 크기에 포함하지 않도록 함
+                if not os.path.islink(f_p):
+                    folderSize += int(round(os.path.getsize(f_p)/ (1024*1024))) #폴더 용량을 byte 단위에서 -> megabyte (mb)로 변경
+                if keyboard.is_pressed('q'):
+                    running.value = False
+                break
+            if keyboard.is_pressed('q'):
+                running.value = False
+                break
+    except FileNotFoundError:
+        print(f"<오류> 폴더를 찾을 수 없습니다: {basic_path}")
+
+##폴더 용량 관리하기
+#폴더 사이즈를 유지하기 위해 폴더를 처음 만든 순서대로 지우기
+def deleteFiles():
+    print(f'deletefiles func started')
+    sorted_folder_list = sorted(basic_path, key=lambda x: tuple(map(int, x.split('_')))) # sortFolder by dateCreated (as specified in folder name)
+    print(f'폴더 정렬: {sorted_folder_list}')
+    del_i = 0 # 파일을 만드는 순서대로 지우기
+    global folderSize
+    while (folderSize>max_storage) and running and (del_i<len(sorted_folder_list)):
+        # removedFile = str(os.remove(basic_path + sorted_folder_list[del_i]))
+        # folderSize -= fileStats.st_size #폴더를 지우자 마자 폴더 용량 업데이트 하기
+        print(f'removedFile:', str(basic_path + sorted_folder_list[del_i]))
+        if keyboard.is_pressed('q'):
+            running = False
+            break
+        del_i += 1
+    print(f'<용량 업데이트>현재 폴더 용량은: {folderSize}')     
+
 ### 🔹 저장 용량 확인 프로세스
 def checkStorageFunc(running):
     global folderSize
     while running.value:
         print("📦 폴더 용량 확인 중...")
-        time.sleep(storageCheck_duration)  # Simulate checking storage
-
+        check_folderSize()
         if folderSize > max_storage:
             print("⚠ 용량 초과! 파일 삭제 필요")
-
+            deleteFiles()
     print("🛑 저장 용량 확인 종료")
 
 ### 🔹 메인 실행 부분
