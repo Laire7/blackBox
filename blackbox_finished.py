@@ -17,8 +17,7 @@ storageCheck_duration = 80
 max_storage = 270
 folderSize = 0
 
-##비디오 만들기 함수들
-#비디오 생성하기
+## 비디오 녹화하고 저장하기
 def createVideo(now):
     print("🔴 비디오 녹화 시작") 
     ##녹화 설정
@@ -28,12 +27,11 @@ def createVideo(now):
     else: #webcam이 아닌 경우 지정한 비디오로부터 녹화 시작하기
         video_fileName = os.path.join(basic_path, 'data', 'vtest.avi')
         cap = cv2.VideoCapture(video_fileName) 
-    #VideoWriter 객체 생성하기
-    fourcc = cv2.VideoWriter_fourcc(*'XVID') #코덱?? 설정
+    
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')  #VideoWriter 객체 생성하기 (코덱?으로 설정)
     videoName = currDateTime_toStr(now,"video") #비디오 파일 이름 설정
     fps = int(cap.get(cv2.CAP_PROP_FPS))  #프레임 레이트 설정
-    # 카메라의 이미지 사이즈
-    frameSize = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    frameSize = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))) # 카메라의 이미지 사이즈
     #출력 파일 설정
     out_color = cv2.VideoWriter(videoName + '.avi', fourcc, fps, frameSize)
     # out_gray = cv2.VideoWriter(videoName + '_gray.avi', fourcc, fps, frameSize, isColor=False) 
@@ -41,16 +39,18 @@ def createVideo(now):
     #녹화 시작
     start_time = time.time() #녹화 시간 추적
     while time.time() - start_time < video_duration:
-        retval, frame = cap.read()  #프레임 읽기
-        #프레임 저장
-        out_color.write(frame)  
-        # grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
-        # out_gray.write(grayFrame) 
-        #미리보기 표시
+        #프레임 읽기
+        retval, frame = cap.read()  
+        #프레임 저장 
+        out_color.write(frame) 
+        # grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #영상을 흑백으로 바꾸기
+        # out_gray.write(grayFrame) #흑백 영상 출력
+        #영상 미리보기
         cv2.imshow('Color Recording', frame)  
-        # cv2.imshow('Grayscale Recording', grayFrame)
-        delay = int(1000 / fps)
-        if cv2.waitKey(delay) == 113:
+        # cv2.imshow('Grayscale Recording', grayFrame) #흑백 영상 미리보기
+        # 녹음 중에도 프로그램 종료 감지
+        delay = int(1000 / fps) # 프레임이 바뀌는 빈도에 맞춰 키보드 입력 감지
+        if cv2.waitKey(delay) == 113: 
             break   
 
     #비디오 녹화 출력하기
@@ -60,7 +60,7 @@ def createVideo(now):
     # out_gray.release()
     cv2.destroyAllWindows() #미리보기 창 닫기
 
-#날짜+현재시간으로 폴더 이름 짓기
+## 날짜+현재시간으로 폴더 이름 짓기
 def currDateTime_toStr(now, fileType):
     now_toStr = ''
     now_toStr = now.strftime("%Y%m%d_%H%M")
@@ -68,7 +68,7 @@ def currDateTime_toStr(now, fileType):
         now_toStr += '\\' + now.strftime("%Y%m%d_%H%M%S")
     return basic_path + now_toStr
 
-#새로운 폴더 만들기         
+## 새로운 폴더 만들기         
 def createFolder(now):
     #새 폴더 경로 지정하기
     new_path = currDateTime_toStr(now, "folder")
