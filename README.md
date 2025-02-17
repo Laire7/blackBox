@@ -96,6 +96,7 @@ if __name__ == "__main__":
   * <pre><code> 0xFF </code></pre> 는 키보드 입력 시 cv2가 이해 할 수 있는 것들로만 입력값을 제안한다
   * <pre><code> ord('q') </code></pre> 의 자리에 해당 ASCII 숫자만 넣어도 되지만, 알아보기 쉬어 자주 사용 된다
     * 다만 'Esc'같은 입력값들은 ASCII 숫자로만 지정 할 수 있다   
+
 '''
 import keyboard 
 
