@@ -92,14 +92,14 @@ time.time()
     file1.txt
     file2.txt
     file3.txt
-  </code></pre>   
+    </code></pre>   
 * <code> for dirpath, dirnames, filenames in os.walk(basic_path) </code> 는 특정 경로에 존재하는 모든 파일들 폴더 안에 있는 디렉토리의 하위 구조까지 불러온다
   * <pre><code>
     ('C:\\test', ['directory1'], ['file1.txt', 'file2.txt', 'file3.txt'])
     ('C:\\test\\directory1', [], ['file4.txt']) 
-  </code></pre>
+    </code></pre>
 * <code> os.path.islink(path) </code> 함수를 사용하여 폴더 용량을 추척 할 때 파일이 아닌 것을 걸러 낼 수 있다
-* <code> os.rmdir(folder_path) </code> 해당 폴더를 지울 수 있다 (단, 폴더 안에 모든 파일들을 <code> os.remove(file_path)로 지우고 난 후에만 가능)
+* <code> os.rmdir(folder_path) </code> 해당 폴더를 지울 수 있다 (단, 폴더 안에 모든 파일들을 <code> os.remove(file_path) </code> 로 지우고 난 후에만 가능)
 * <code> os.path.getsize(path) </code> 해당 경로에 용량을 측정
 #### 키보드 입력 탐지
 <code> cv2.waitKey(1) & 0xFF == ord('q') </code> 는 와 <code> keyboard.is_pressed('q') </code> 달리 
