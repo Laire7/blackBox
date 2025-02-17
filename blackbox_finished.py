@@ -44,7 +44,7 @@ def createVideo(now):
         retval, frame = cap.read()  #프레임 읽기
         #프레임 저장
         out_color.write(frame)  
-        grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
+        # grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
         # out_gray.write(grayFrame) 
         #미리보기 표시
         cv2.imshow('Color Recording', frame)  
