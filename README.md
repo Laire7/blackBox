@@ -82,8 +82,8 @@ time.time()
 </code></pre>
 현재 시간을 알려준다
 #### 날짜 + 시간
-<code>datetime.now()</code> : 현재 날짜와 시간을 알려준다
-<code> now.strftime("%Y%m%d_%H%M%S") </code>: 날짜와 시간을 문자열로 바꿔준다
+* <code>datetime.now()</code> : 현재 날짜와 시간을 알려준다
+* <code> now.strftime("%Y%m%d_%H%M%S") </code>: 날짜와 시간을 문자열로 바꿔준다
 #### 폴더 경로
 * <code> os.path.join(base_path, path_add1, ..., filename) </code> 폴더의 경로를 설정할 수 있다
 * <code> for dirpath, dirnames, filenames in os.walk(basic_path) </code> 함수를 사용하여, 폴더 안에 있는 모든 파일들을 목록으로 불러와 for 루프로 확인 할 수 있다 
