@@ -79,7 +79,7 @@ if __name__ == "__main__":
    cv2.destroyAllWindows() #미리보기 창 닫기
   '''
 
-###기타 요소
+### 기타 요소
 #### 시간
 <pre><code> time.time() </code></pre>: 현재 시간을 알려준다
   * <pre><code> import time </code></pre>
@@ -91,16 +91,16 @@ if __name__ == "__main__":
 * <pre><code> for dirpath, dirnames, filenames in os.walk(basic_path) </code></pre> 함수를 사용하여, 폴더 안에 있는 모든 파일들을 목록으로 불러와 for 루프로 확인 할 수 있다 
 * <pre><code> os.path.islink(path) </code></pre> 함수를 사용하여 폴더 용량을 추척 할 때 파일이 아닌 것을 걸러 낼 수 있다 
 #### 키보드 입력 탐지
-<pre><code> cv2.waitKey(1) & 0xFF == ord('q') </code></pre> 와 달리
+    '''
+    import keyboard
+    if keyboard.is_pressed('q'):
+        running = False
+        break
+    '''
+<pre><code> cv2.waitKey(1) & 0xFF == ord('q') </code></pre> 와 달리 <pre><code> keyboard.is_pressed('q') </code></pre>
   * 키보드 입력을 항상 주의한다: 여기에서 <pre><code> waitKey(1) </code></pre> 는 1 milisecond만 키보드 입력을 주의한다
   * <pre><code> 0xFF </code></pre> 는 키보드 입력 시 cv2가 이해 할 수 있는 것들로만 입력값을 제안한다
   * <pre><code> ord('q') </code></pre> 의 자리에 해당 ASCII 숫자만 넣어도 되지만, 알아보기 쉬어 자주 사용 된다
-    * 다만 'Esc'같은 입력값들은 ASCII 숫자로만 지정 할 수 있다   
+    * 다만 'Esc'같은 입력값들은 ASCII 숫자로만 지정 할 수 있다
+       
 
-'''
-import keyboard 
-
-if keyboard.is_pressed('q'):
-    running = False
-    break
-'''
