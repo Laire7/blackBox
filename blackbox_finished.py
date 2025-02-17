@@ -14,7 +14,7 @@ basic_path = 'C:\\Users\\syoun\\blackbox\\'
 video_duration = 10
 folder_duration = 40
 storageCheck_duration = 80
-max_storage = 270
+max_storage = 5000
 folderSize = 0
 
 ## 비디오 녹화하고 저장하기
@@ -91,7 +91,6 @@ def createBlackbox(running):
 
 # 폴더 용량 측정하기
 def check_folderSize():
-    print(f'checkfoldersize func started')
     global folderSize
     try:
         #폴더 내 모든 파일과 하위 폴더를 순회
@@ -101,9 +100,10 @@ def check_folderSize():
                 #os.path.islink() 함수를 사용하여 심볼릭 링크는 크기에 포함하지 않도록 함
                 if not os.path.islink(f_p):
                     folderSize += int(round(os.path.getsize(f_p)/ (1024*1024))) #폴더 용량을 byte 단위에서 -> megabyte (mb)로 변경
+                    print(f'folderSize is {folderSize}')
                 if keyboard.is_pressed('q'):
                     running.value = False
-                break
+                    break
             if keyboard.is_pressed('q'):
                 running.value = False
                 break
@@ -113,20 +113,27 @@ def check_folderSize():
 ##폴더 용량 관리하기
 #폴더 사이즈를 유지하기 위해 폴더를 처음 만든 순서대로 지우기
 def deleteFiles():
-    print(f'deletefiles func qstarted')
-    sorted_folder_list = sorted(basic_path, key=lambda x: tuple(map(int, x.split('_')))) # sortFolder by dateCreated (as specified in folder name)
-    print(f'폴더 정렬: {sorted_folder_list}')
-    del_i = 0 # 파일을 만드는 순서대로 지우기
-    global folderSize
-    while (folderSize>max_storage) and running.value and (del_i<len(sorted_folder_list)):
-        removedFile = str(os.remove(basic_path + sorted_folder_list[del_i]))
-        folderSize -= removedFile.st_size #폴더를 지우자 마자 폴더 용량 업데이트 하기
-        print(f'removedFile:', str(basic_path + sorted_folder_list[del_i]))
-        if keyboard.is_pressed('q'):
-            running = False
-            break
-        del_i += 1
-    print(f'<용량 업데이트>현재 폴더 용량은: {folderSize}')     
+    try: 
+        folder_list = [f for f in os.listdir(basic_path) if os.path.isdir(os.path.join(basic_path, f)) and '_' in f]
+        sorted_folder_list = sorted(folder_list, key=lambda x: tuple(map(int, x.split('_'))) if '_' in x else (99999999, 99)) # sortFolder by dateCreated (as specified in folder name)
+        print(f'폴더 정렬: {sorted_folder_list}')
+        del_i = 0 # 파일을 만드는 순서대로 지우기
+        global folderSize
+        while (folderSize>max_storage) and running.value and (del_i<len(sorted_folder_list)):
+            folder_path = os.path.join(basic_path, sorted_folder_list[del_i])
+            for root, dirs, files in os.walk(folder_path, topdown=False):
+                for name in files:
+                    file_path = os.path.join(root, name)
+                    os.remove(file_path)
+                    folderSize -= os.path.getsize(file_path) / (1024 * 1024)
+                for name in dirs:
+                    os.rmdir(os.path.join(root, name))
+            os.rmdir(folder_path)
+            print(f'removedFolder: {folder_path}')
+            del_i += 1
+        print(f'<용량 업데이트>현재 폴더 용량은: {folderSize}')
+    except Exception as e:
+        print(f"<오류> 파일 삭제 중 오류 발생: {e}")
 
 ### 🔹 저장 용량 확인 프로세스
 def checkStorageFunc(running):
