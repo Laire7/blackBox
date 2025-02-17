@@ -113,14 +113,14 @@ def check_folderSize():
 ##폴더 용량 관리하기
 #폴더 사이즈를 유지하기 위해 폴더를 처음 만든 순서대로 지우기
 def deleteFiles():
-    print(f'deletefiles func started')
+    print(f'deletefiles func qstarted')
     sorted_folder_list = sorted(basic_path, key=lambda x: tuple(map(int, x.split('_')))) # sortFolder by dateCreated (as specified in folder name)
     print(f'폴더 정렬: {sorted_folder_list}')
     del_i = 0 # 파일을 만드는 순서대로 지우기
     global folderSize
     while (folderSize>max_storage) and running and (del_i<len(sorted_folder_list)):
-        # removedFile = str(os.remove(basic_path + sorted_folder_list[del_i]))
-        # folderSize -= fileStats.st_size #폴더를 지우자 마자 폴더 용량 업데이트 하기
+        removedFile = str(os.remove(basic_path + sorted_folder_list[del_i]))
+        folderSize -= removedFile.st_size #폴더를 지우자 마자 폴더 용량 업데이트 하기
         print(f'removedFile:', str(basic_path + sorted_folder_list[del_i]))
         if keyboard.is_pressed('q'):
             running = False
